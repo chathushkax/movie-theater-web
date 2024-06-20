@@ -48,6 +48,14 @@
             background-color: #000 !important;
             min-height: 100vh;
         }
+
+        .container .section-title{
+            Font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif !important;
+            font-size: x-large !important; 
+            color: #fff !important;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
