@@ -13,6 +13,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/movies', [MovieController::class, 'index'])->name('movies.index');
 Route::get('/showtimes/{movie}', [ShowtimeController::class, 'index'])->name('showtimes.index');
+Route::get('/getMovies', [MovieController::class, 'addMoviesToDatabase']);
 
 // Authentication routes
 Auth::routes();

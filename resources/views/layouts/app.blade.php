@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{  'SAVOY 3D' }}</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
@@ -56,14 +56,30 @@
             font-weight: 600;
             margin-bottom: 20px;
         }
+
+        .container a{
+            text-decoration: none !important;
+        }
+
+        .container h2{
+            color: #fff;
+        }
+
+        .container .image-container{
+            margin-bottom: 15px;
+        }
+        .card-img-top{
+            width: 200px !important;
+            height: auto;
+        }
     </style>
 </head>
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm" style="min-height: 100px;background-color:rgb(32, 30, 30) !important;">
             <div class="container">
-                <a class="navbar-brand" style="" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                <a class="navbar-brand" href="{{ url('/') }}">
+                    {{  'SAVOY 3D' }}
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>

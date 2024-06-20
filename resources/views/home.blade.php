@@ -32,6 +32,7 @@
             margin: 0 !important;
         }
         
+        
     </style>
     {{-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> --}}
 
@@ -42,19 +43,21 @@
         <div class="row">
             @foreach ($movies as $movie)
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-                    <div class="card h-50" style="border: none !important">
-                        <div class="image-container">
-                            <div class="overlay">
-                                <img src="{{ $movie->image_url }}" class="card-img-top" alt="{{ $movie->title }}">
-                                <h5 class="movie-title">{{ $movie->title }}</h5>
-                                <p class="card-text">{{ $movie->genre }}</p>
+                    <a href="{{ url('/showtimes/' . str_replace(' ', '-', $movie->title)) }}">
+                        <div class="card h-50" style="border: none !important;cursor: pointer;">
+                            <div class="image-container">
+                                <div class="overlay">
+                                    <img src="{{ $movie->image_url }}" class="card-img-top" alt="{{ $movie->title }}">
+                                    <h5 class="movie-title">{{ $movie->title }}</h5>
+                                    <p class="card-text">{{ $movie->genre }}</p>
+                                </div>
                             </div>
+                            {{-- <div class="card-body">
+                                <p class="card-text">{{ $movie->release_date }}</p>
+                                <p class="card-text">{{ $movie->description }}</p>
+                            </div> --}}
                         </div>
-                        {{-- <div class="card-body">
-                            <p class="card-text">{{ $movie->release_date }}</p>
-                            <p class="card-text">{{ $movie->description }}</p>
-                        </div> --}}
-                    </div>
+                    </a>
                 </div>
             @endforeach
         </div>
