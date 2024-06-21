@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,81 +8,32 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{  'SAVOY 3D' }}</title>
+    <title>{{ 'SAVOY 3D' }}</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <style>
-        .log-btn{
-            /* border:1px solid #b2f918; */
-            color: #b2f918;
-            border-radius: 7px;
-            margin: 5px; 
-            Font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
-        }
-        .reg-btn{
-            /* border:  1px solid #b2f918; */
-            color: #b2f918;
-            border-radius: 7px;
-            margin: 5px; 
-            Font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
-        }
-        .navbar-brand{
-            Font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
-            font-size: xx-large;
-            font-weight: 700;
-            color:#b2f918 !important;
-        }
-        .log-btn:hover{
-            color:#b2f918 !important;
-            text-shadow: #b2f918 !important;
-        }
-        .reg-btn:hover{
-            color:#b2f918 !important;
-            text-shadow: #b2f918 !important;
-        }
-        .py-4{
-            background-color: #000 !important;
-            min-height: 100vh;
-        }
 
-        .container .section-title{
-            Font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif !important;
-            font-size: x-large !important; 
-            color: #fff !important;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-
-        .container a{
-            text-decoration: none !important;
-        }
-
-        .container h2{
-            color: #fff;
-        }
-
-        .container .image-container{
-            margin-bottom: 15px;
-        }
-        .card-img-top{
-            width: 200px !important;
-            height: auto;
-        }
     </style>
 </head>
+
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm" style="min-height: 100px;background-color:rgb(32, 30, 30) !important;">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm"
+            style="min-height: 100px;background-color:rgb(32, 30, 30) !important;">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{  'SAVOY 3D' }}
+                    {{ 'SAVOY 3D' }}
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -108,13 +60,14 @@
                             @endif
                         @else
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle user_name" href="#" role="button"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
+                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
@@ -135,4 +88,5 @@
         </main>
     </div>
 </body>
+
 </html>
