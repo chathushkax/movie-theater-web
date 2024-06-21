@@ -33,4 +33,8 @@ class BookingController extends Controller
 
         return redirect()->route('showtimes.index', $movieName)->with('success', 'Booking successful!');
     }
+
+    public function bookingSeats() {
+        return view('booking.booking');
+    }
 }

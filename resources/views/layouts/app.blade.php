@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ 'SAVOY 3D' }}</title>
+    <title>{{ 'SAVOY' }}</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
@@ -106,14 +106,14 @@
             style="min-height: 100px;background-color:rgb(32, 30, 30) !important;">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ 'SAVOY 3D' }}
+                    {{ 'SAVOY' }}
                 </a>
 
                 {{-- search bar --}}
                 <form style="width: 500px;" id="search-form">
                     <div class="input-group" style="width: 100%">
                         <input type="text" style="width: 100%" id="search" placeholder="Search..." autocomplete="off">
-                        <label for="search"><i class="fas fa-search"></i></label>
+                        <label for="search" class="search_label"><i class="fas fa-search"></i></label>
                     </div>
                 
                     <div class="suggestion-list hidden" id="suggestion-list">
