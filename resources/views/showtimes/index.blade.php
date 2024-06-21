@@ -7,7 +7,7 @@
     </div>
     <div class="row d-flex" style="color: rgb(128 128 146) !important;">
         <div class="image-container" style="max-width: fit-content;">
-            <img src="{{ $movieDetails->image_url }}" class="card-img-top" alt="{{ $movieDetails->title }}">
+            <img src="{{ $movieDetails->image_url }}" class="card-img-top" style="max-width: 200px !important" alt="{{ $movieDetails->title }}">
         </div>
         <div style="max-width: 70%;">
             <h3>{{ $duration }}</h3>
@@ -28,6 +28,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ $showtime->showtime }}</h5>
                     <p class="card-text">Available Seats: {{ $showtime->available_seats }}</p>
+                    @if($showtime->booked_seats)<span class="card-text">Booked Seats: {{ $showtime->booked_seats }}</span>@endif
                     <form action="{{ route('bookings.store', $showtime->id) }}" method="POST">
                         @csrf
                         <div class="form-group">
