@@ -21,81 +21,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style>
-        .chat-icon {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #007bff;
-            color: white;
-            padding: 15px;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 1000;
-        }
-
-        .chat-box {
-            position: fixed;
-            bottom: 80px;
-            right: 20px;
-            width: 300px;
-            max-height: 400px;
-            background: white;
-            border: 1px solid #ddd;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-            z-index: 1000;
-        }
-
-        .chat-header {
-            background: #007bff;
-            color: white;
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .chat-body {
-            padding: 10px;
-        }
-
-        .close-chat {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        #chat-form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        #chat-input {
-            resize: none;
-            width: 100%;
-            height: 100px;
-            margin-bottom: 10px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-
-        #chat-form button {
-            align-self: flex-end;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+        
 
     </style>
 </head>
@@ -112,7 +38,7 @@
                 {{-- search bar --}}
                 <form style="width: 500px;" id="search-form">
                     <div class="input-group" style="width: 100%">
-                        <input type="text" style="width: 100%" id="search" placeholder="Search..." autocomplete="off">
+                        <input type="text" style="width: 100%" id="search" placeholder="Search Movies..." autocomplete="off">
                         <label for="search" class="search_label"><i class="fas fa-search"></i></label>
                     </div>
                 

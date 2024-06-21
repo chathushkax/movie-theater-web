@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Movie;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 use mysqli;
 
@@ -20,14 +21,16 @@ class MovieController extends Controller
         $query = $request->input('query');
         $movies = Movie::where('title', 'LIKE', "%{$query}%")
             ->orWhere('genre', 'LIKE', "%{$query}%")
+            ->orWhere('release_date', 'LIKE', "%{$query}%")
             ->get();
 
         $output = '<ul class="list-group">';
         foreach ($movies as $movie) {
+            $year = Carbon::parse($movie->release_date)->format('Y');
             $output .= '<li class="list-group-item">
                             <a href="' . route('showtimes.index', $movie->title) . '">'
                                 . '<img src="'.$movie->image_url.'" style="width:50px;height:auto;">'
-                                    . $movie->title . '(' .$movie->release_date = date('Y') . ')'.
+                                . $movie->title . ' (' . $year . ')'.
                             '</a>
                         </li>';
         }
