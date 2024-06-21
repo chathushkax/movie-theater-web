@@ -23,6 +23,7 @@ Auth::routes();
 // Routes that require authentication
 Route::middleware(['auth'])->group(function () {
     Route::post('/bookings/{showtime}', [BookingController::class, 'store'])->name('bookings.store');
+    Route::get('/booking-process', [BookingController::class, 'bookingSeats'])->name('bookings.bookingSeats');
     Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
 });
 
