@@ -13,177 +13,14 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style>
-        .log-btn {
-            /* border:1px solid #b2f918; */
-            color: #b2f918;
-            border-radius: 7px;
-            margin: 5px;
-            Font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
-        }
-
-        #navbarDropdown,
-        .reg-btn {
-            /* border:  1px solid #b2f918; */
-            color: #b2f918;
-            border-radius: 7px;
-            margin: 5px;
-            Font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
-        }
-
-        .navbar-brand {
-            Font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
-            font-size: xx-large;
-            font-weight: 700;
-            color: #b2f918 !important;
-        }
-
-        .log-btn:hover {
-            color: #b2f918 !important;
-            text-shadow: #b2f918 !important;
-        }
-
-        .reg-btn:hover {
-            color: #b2f918 !important;
-            text-shadow: #b2f918 !important;
-        }
-
-        .py-4 {
-            background-color: #000 !important;
-            min-height: 100vh;
-        }
-
-        .container .section-title {
-            Font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif !important;
-            font-size: x-large !important;
-            color: #fff !important;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-
-        .container a {
-            text-decoration: none !important;
-        }
-
-        .container h2 {
-            color: #fff;
-        }
-
-        .container .image-container {
-            margin-bottom: 15px;
-        }
-
-        .card-img-top {
-            /* width: 200px !important; */
-            height: auto;
-        }
-
-        form {
-            max-width: 80%;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .input-group {
-            position: relative;
-        }
-
-        label {
-            position: absolute;
-            right: 2%;
-            top: 50%;
-            transform: translatey(-50%);
-            color: rgba(0, 0, 0, 0.08);
-            transition: all 0.2s ease;
-        }
-
-        input {
-            width: 100%;
-            padding: 8px 30px 8px 12px;
-            border: 2px solid rgba(0, 0, 0, 0.08);
-            outline: none;
-            font-size: 16px;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.06);
-            color: #F27121;
-            font-weight: bold;
-            letter-spacing: 1px;
-            border-radius: 1px;
-            transition: all 0.2s ease;
-        }
-
-        input:focus {
-            border-color: #F27121;
-        }
-
-        input:focus+label {
-            transform: scale(1.05) translatey(-50%);
-            color: #F27121;
-        }
-
-        #apps {
-            margin-top: 42px;
-        }
-
-        .app {
-            display: inline-block;
-            width: 20%;
-            margin: 0 2.2% 24px;
-            padding: 12px 6px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
-            transition: all 0.2s ease;
-        }
-
-        .app:hover {
-            border-color: rgba(255, 255, 255, 0.5);
-        }
-
-        .app i {
-            font-size: 2.4em;
-            color: #fff;
-        }
-
-        .app p {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 14px;
-            margin-top: 6px;
-            transition: 0.2s all ease;
-        }
-
-        .app:hover p {
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .suggestion-list {
-            background-color: #fff;
-            padding: 18px 24px 6px 12px;
-            border-radius: 0 0 6px 6px;
-            position: absolute;
-            width: 100%;
-            margin-top: 0px;
-            border: 2px solid #F27121;
-            border-top: none;
-            z-index: 1000;
-        }
-
-        .suggestion-list.hidden {
-            display: none;
-        }
-
-        .suggestion-list p {
-            margin-bottom: 12px;
-        }
-
-        .suggestion-list i {
-            margin-right: 12px;
-            color: #F27121;
-        }
     </style>
 </head>
 
@@ -235,7 +72,7 @@
                             @endif
                         @else
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle user_name" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
