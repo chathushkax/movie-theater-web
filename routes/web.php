@@ -7,6 +7,7 @@ use App\Http\Controllers\ShowtimeController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\QuestionController;
 
 // Public routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -15,6 +16,11 @@ Route::get('/movies', [MovieController::class, 'index'])->name('movies.index');
 Route::get('/showtimes/{movie}', [ShowtimeController::class, 'index'])->name('showtimes.index');
 Route::get('/getMovies', [MovieController::class, 'addMoviesToDatabase']);
 Route::get('/search', [MovieController::class, 'search'])->name('search');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/chat/messages', [QuestionController::class, 'index']);
+    Route::post('/chat/messages', [QuestionController::class, 'store']);
+});
 
 
 // Authentication routes

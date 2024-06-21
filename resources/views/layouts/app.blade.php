@@ -21,6 +21,82 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style>
+        .chat-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .chat-box {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 300px;
+            max-height: 400px;
+            background: white;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        .chat-header {
+            background: #007bff;
+            color: white;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-body {
+            padding: 10px;
+        }
+
+        .close-chat {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #chat-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #chat-input {
+            resize: none;
+            width: 100%;
+            height: 100px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        #chat-form button {
+            align-self: flex-end;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
     </style>
 </head>
 
@@ -98,6 +174,30 @@
         <main class="py-4">
             @yield('content')
         </main>
+
+        {{-- chat --}}
+        <!-- Chat Icon -->
+        <div id="chat-icon" class="chat-icon">
+            <i class="fas fa-comments"></i>
+        </div>
+
+        <!-- Chat Box -->
+        <div id="chat-box" class="chat-box hidden">
+            <div class="chat-header">
+                <h4>Live Chat</h4>
+                <button id="close-chat" class="close-chat">&times;</button>
+            </div>
+            <div class="chat-body">
+                <p>How can we help you?</p>
+                <div id="messages" class="messages">
+                    <!-- Messages will be appended here -->
+                </div>
+                <form id="chat-form">
+                    <textarea id="chat-input" placeholder="Type your message..." required></textarea>
+                    <button type="submit">Send</button>
+                </form>
+            </div>
+        </div>
     </div>
 </body>
 
@@ -128,5 +228,63 @@
             }
         });
     });
-    </script>
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const chatIcon = document.getElementById('chat-icon');
+    const chatBox = document.getElementById('chat-box');
+    const closeChat = document.getElementById('close-chat');
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    const messagesDiv = document.getElementById('messages');
+
+    chatIcon.addEventListener('click', function () {
+        chatBox.classList.toggle('hidden');
+        loadMessages();
+    });
+
+    closeChat.addEventListener('click', function () {
+        chatBox.classList.add('hidden');
+    });
+
+    chatForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        sendMessage(chatInput.value);
+        chatInput.value = '';
+    });
+
+    function loadMessages() {
+        fetch('/chat/messages')
+            .then(response => response.json())
+            .then(data => {
+                messagesDiv.innerHTML = '';
+                data.forEach(message => {
+                    const messageElement = document.createElement('div');
+                    messageElement.classList.add('message');
+                    messageElement.innerHTML = `<strong>${message.user.name}:</strong> ${message.message}`;
+                    messagesDiv.appendChild(messageElement);
+                });
+            });
+    }
+
+    function sendMessage(message) {
+        fetch('/chat/messages', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ message: message })
+        })
+        .then(response => response.json())
+        .then(data => {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message');
+            messageElement.innerHTML = `<strong>${data.user.name}:</strong> ${data.message}`;
+            messagesDiv.appendChild(messageElement);
+        });
+    }
+});
+
+</script>
     

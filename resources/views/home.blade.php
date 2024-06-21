@@ -44,5 +44,52 @@
             @endforeach
         </div>
         
+        
+        {{-- feedbacks --}}
+        <div class="row">
+            <div>
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if (session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
+                @if (Auth::check())
+                    <form action="{{ route('feedback.store') }}" method="POST">
+                        @csrf
+                        <div class="form-group">
+                            <label for="feedback">Your Feedback</label>
+                            <textarea id="feedback" name="feedback" class="form-control" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                    </form>
+                @else
+                    <p>You need to <a href="{{ route('login') }}">login</a> to leave feedback.</p>
+                @endif
+            </div>
+            <div>
+                {{-- feedback list --}}
+                <h3>Recent Feedbacks</h3>
+                @if ($feedbacks->isEmpty())
+                    <p>No feedbacks available.</p>
+                @else
+                    <ul class="list-group">
+                        @foreach ($feedbacks as $feedback)
+                            <li class="list-group-item">
+                                <strong>{{ $feedback->name }}:</strong> {{ $feedback->feedback }}
+                                <br>
+                                <small>Submitted on {{ $feedback->created_at->format('d M Y, h:i A') }}</small>
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
+            </div>
+        </div>
     </div>
 @endsection
