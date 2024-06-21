@@ -15,6 +15,27 @@ class MovieController extends Controller
         return view('movies.index', compact('movies'));
     }
 
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $movies = Movie::where('title', 'LIKE', "%{$query}%")
+            ->orWhere('genre', 'LIKE', "%{$query}%")
+            ->get();
+
+        $output = '<ul class="list-group">';
+        foreach ($movies as $movie) {
+            $output .= '<li class="list-group-item">
+                            <a href="' . route('showtimes.index', $movie->title) . '">'
+                                . '<img src="'.$movie->image_url.'" style="width:50px;height:auto;">'
+                                    . $movie->title . '(' .$movie->release_date = date('Y') . ')'.
+                            '</a>
+                        </li>';
+        }
+        $output .= '</ul>';
+
+        return response()->json($output);
+    }
+
     public function addMoviesToDatabase() {
     $apiKey = 'f29247c399bbc1436c35f46145a57341';
 
