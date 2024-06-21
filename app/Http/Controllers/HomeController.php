@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Feedback;
 use Illuminate\Http\Request;
 use App\Models\Movie;
+use App\Models\User;
 
 class HomeController extends Controller
 {
@@ -25,6 +27,11 @@ class HomeController extends Controller
     public function index()
     {
         $movies = Movie::all();
-        return view('home', compact('movies'));
+        $feedbacks = Feedback::orderBy('created_at', 'desc')->take(10)->get();
+            foreach ($feedbacks as $key => $feedback) {
+                $name = User::where('id', $feedback->user_id)->first()->name;
+                $feedback->name = $name;
+            }
+        return view('home', compact('movies', 'feedbacks'));
     }
 }
