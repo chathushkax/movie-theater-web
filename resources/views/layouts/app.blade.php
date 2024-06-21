@@ -18,8 +18,9 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-    <style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <style>
     </style>
 </head>
 
@@ -31,13 +32,24 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ 'SAVOY 3D' }}
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                {{-- search bar --}}
+                <form style="width: 500px;" id="search-form">
+                    <div class="input-group" style="width: 100%">
+                        <input type="text" style="width: 100%" id="search" placeholder="Search..." autocomplete="off">
+                        <label for="search"><i class="fas fa-search"></i></label>
+                    </div>
+                
+                    <div class="suggestion-list hidden" id="suggestion-list">
+                        <!-- Suggestions will be inserted here -->
+                    </div>
+                </form>                
+
+                {{-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                    <span class="navbar-toggler-icon"></span>
+                </button> --}}
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent" style="max-width: 300px">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
 
@@ -90,3 +102,31 @@
 </body>
 
 </html>
+<script>
+    $(document).ready(function() {
+        $('#search').on('keyup', function() {
+            let query = $(this).val();
+            if (query.length > 0) {
+                $.ajax({
+                    url: "{{ route('search') }}",
+                    type: "GET",
+                    data: { 'query': query },
+                    success: function(data) {
+                        $('#suggestion-list').html(data);
+                        $('#suggestion-list').removeClass('hidden');
+                    }
+                });
+            } else {
+                $('#suggestion-list').html('');
+                $('#suggestion-list').addClass('hidden');
+            }
+        });
+    
+        $(document).on('click', function(event) {
+            if (!$(event.target).closest('#search-form').length) {
+                $('#suggestion-list').addClass('hidden');
+            }
+        });
+    });
+    </script>
+    
