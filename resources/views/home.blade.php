@@ -47,7 +47,7 @@
         
         {{-- feedbacks --}}
         <div class="row">
-            <div>
+            <div class="feedback_form">
                 @if (session('success'))
                     <div class="alert alert-success">
                         {{ session('success') }}
@@ -61,19 +61,24 @@
                 @endif
 
                 @if (Auth::check())
-                    <form action="{{ route('feedback.store') }}" method="POST">
+                    <div  class="share_idea">
+                        <h2>Share your Idea with Us.</h2>
+                    </div>
+                    <form action="{{ route('feedback.store') }}" method="POST"  style="width:100%">
                         @csrf
                         <div class="form-group">
                             <label for="feedback">Your Feedback</label>
                             <textarea id="feedback" name="feedback" class="form-control" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                        <div class="feedback_submit">
+                            <button type="submit" class="btn btn-primary feedback_submit_btn">Submit Feedback</button>
+                        </div>
                     </form>
                 @else
-                    <p>You need to <a href="{{ route('login') }}">login</a> to leave feedback.</p>
+                    <p style="color: #b2f918; margin-top:100px">You need to <label for="" class="login_lable"><a class="link_lable" href="{{ route('login') }}">login</a></label> to leave feedback.</p>
                 @endif
             </div>
-            <div>
+            <div class="recent_feedbacks">
                 {{-- feedback list --}}
                 <h3>Recent Feedbacks</h3>
                 @if ($feedbacks->isEmpty())

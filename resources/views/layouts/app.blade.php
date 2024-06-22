@@ -96,6 +96,8 @@
                 </div>
             </div>
         </nav>
+        
+        {{-- slider --}}
 
         <main class="py-4">
             @yield('content')
@@ -104,13 +106,14 @@
         {{-- chat --}}
         <!-- Chat Icon -->
         <div id="chat-icon" class="chat-icon">
-            <i class="fas fa-comments"></i>
+            {{-- <i class="fas fa-comments"></i> --}}
+            <img class="chat_icon" src="/images/chat.png" alt="">
         </div>
 
         <!-- Chat Box -->
         <div id="chat-box" class="chat-box hidden">
             <div class="chat-header">
-                <h4>Live Chat</h4>
+                <h4 class="live_chat">Live Chat</h4>
                 <button id="close-chat" class="close-chat">&times;</button>
             </div>
             <div class="chat-body">

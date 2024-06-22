@@ -18,6 +18,17 @@
     color: #b2f918 !important;
 }
 
+.auth_card{
+    background-color: #000000 !important;
+    border: #b2f918 solid 2px !important;
+    color: #ffffff !important;
+}
+
+.card-header{
+    font-size: 20px;
+    font-weight: 900;
+}
+
 form {
     max-width: 80%;
     margin: 0 auto;
@@ -596,12 +607,14 @@ input:focus + label {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: #007bff;
+    background-color: #b2f918;
     color: white;
     padding: 15px;
     border-radius: 50%;
     cursor: pointer;
     z-index: 1000;
+    height: 50px;
+    width: 50px;
 }
 
 .chat-box {
@@ -610,16 +623,21 @@ input:focus + label {
     right: 20px;
     width: 300px;
     max-height: 400px;
-    background: white;
-    border: 1px solid #ddd;
+    background: #000000;
+    border: 1px solid #b2f918;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     overflow: hidden;
     z-index: 1000;
 }
 
+.chat_icon{
+    width: 20px;
+    height: auto;
+}
+
 .chat-header {
-    background: #007bff;
+    background: #b2f918;
     color: white;
     padding: 10px;
     display: flex;
@@ -631,10 +649,15 @@ input:focus + label {
     padding: 10px;
 }
 
+.live_chat{
+    color: #000000;
+    font-weight: 900;
+}
+
 .close-chat {
     background: none;
     border: none;
-    color: white;
+    color: #000000;
     font-size: 20px;
     cursor: pointer;
 }
@@ -654,16 +677,71 @@ input:focus + label {
     height: 100px;
     margin-bottom: 10px;
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #ffffff;
     border-radius: 5px;
+    background: #000000;
+    color: #ffffff;
+    font-weight: 500;
 }
 
 #chat-form button {
     align-self: flex-end;
-    background-color: #007bff;
-    color: white;
+    background-color: #b2f918;
+    color: #000000;
     border: none;
     padding: 10px 15px;
     border-radius: 5px;
     cursor: pointer;
+}
+
+/* feedback style */
+
+.feedback_form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.feedback_submit{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.feedback_submit_btn{
+    background-color: #b2f918 !important;
+    border: 1px solid #000000 !important;
+    color: #000000 !important;
+    font-weight: 700 !important;
+}
+
+.feedback_submit_btn:hover{
+    background-color: #000000 !important;
+    border: 1px solid #b2f918 !important;
+    color: #b2f918 !important;
+    font-weight: 900 !important;
+}
+
+.share_idea{
+    margin-top: 100px;
+}
+
+.recent_feedbacks{
+    margin-top: 50px !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+}
+
+.login_lable{
+    background-color: #b2f918;
+    padding: 0 10px;
+    border-radius: 3px;
+}
+
+.link_lable{
+    color: #000000;
+    font-weight: 900;
 }
