@@ -9,7 +9,9 @@ class Booking extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'showtime_id', 'seats_booked'];
+    protected $fillable = [
+        'user_id', 'row', 'col', 'showtime_id'
+    ];
 
     public function user()
     {
@@ -19,5 +21,10 @@ class Booking extends Model
     public function showtime()
     {
         return $this->belongsTo(Showtime::class);
+    }
+
+    public function feedback()
+    {
+        return $this->hasOne(Feedback::class);
     }
 }

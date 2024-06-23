@@ -745,3 +745,26 @@ input:focus + label {
     color: #000000;
     font-weight: 900;
 }
+
+.price .amount, .price .currency{
+    color: #fff;
+    font-size: larger;
+}
+
+.dropdown-item{
+    font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif !important;
+    font-weight: 500;
+}
+.referer-numbers{
+    color: #b2f918;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-gap: 15px;
+    margin-top: 20px;
+    position: relative;
+}
+.referer-numbers label{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

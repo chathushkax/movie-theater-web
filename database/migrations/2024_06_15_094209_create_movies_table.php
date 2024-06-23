@@ -18,6 +18,9 @@ return new class extends Migration
             $table->string('genre');
             $table->string('image_url');
             $table->date('release_date');
+            $table->integer('duration')->nullable();
+            $table->string('language')->nullable();
+            $table->text('actors')->nullable();
             $table->timestamps();
         });
     }

@@ -7,7 +7,9 @@ use App\Http\Controllers\ShowtimeController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionController;
+use Illuminate\Support\Facades\Auth;
 
 // Public routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -17,25 +19,33 @@ Route::get('/showtimes/{movie}', [ShowtimeController::class, 'index'])->name('sh
 Route::get('/getMovies', [MovieController::class, 'addMoviesToDatabase']);
 Route::get('/search', [MovieController::class, 'search'])->name('search');
 
-Route::middleware('auth')->group(function () {
+// Authentication routes
+Auth::routes();
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::post('/admin/confirm/{id}', [AdminController::class, 'confirm'])->name('admin.bookings.confirm');
+    Route::post('/admin/cancel/{id}', [AdminController::class, 'cancel'])->name('admin.bookings.cancel');
+    Route::put('bookings/{booking}', [AdminController::class, 'modify'])->name('admin.bookings.modify');
+    Route::post('movies/store', [AdminController::class, 'storeMovie'])->name('admin.movies.store');
+    Route::get('/add/movies', [AdminController::class, 'addMovie'])->name('admin.movies.create');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/staff', function () {
+        // Staff routes
+    });
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
+    Route::post('/bookings/{showtime}', [BookingController::class, 'store'])->name('bookings.store');
+    Route::get('/booking-process/{id}', [BookingController::class, 'bookingSeats'])->name('bookings.bookingSeats');
+    Route::post('/book-tickets', [BookingController::class, 'bookTickets']);
+    Route::get('/get-showtime-details/{showtime_id}', [BookingController::class, 'getShowtimeDetails']);
+    Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
     Route::get('/chat/messages', [QuestionController::class, 'index']);
     Route::post('/chat/messages', [QuestionController::class, 'store']);
 });
 
 
-// Authentication routes
-Auth::routes();
-
-// Routes that require authentication
-Route::middleware(['auth'])->group(function () {
-    Route::post('/bookings/{showtime}', [BookingController::class, 'store'])->name('bookings.store');
-    Route::get('/booking-process', [BookingController::class, 'bookingSeats'])->name('bookings.bookingSeats');
-    Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
-});
-
-// Admin routes that require both authentication and admin role
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
-    Route::post('/admin/confirm/{id}', [AdminController::class, 'confirm'])->name('admin.confirm');
-    Route::post('/admin/cancel/{id}', [AdminController::class, 'cancel'])->name('admin.cancel');
-});

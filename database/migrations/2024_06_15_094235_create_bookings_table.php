@@ -15,9 +15,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('showtime_id')->constrained()->onDelete('cascade');
-            $table->integer('seats_booked');
+            $table->integer('row');
+            $table->integer('col');
+            $table->string('status');
             $table->timestamps();
+            $table->unique(['showtime_id', 'row', 'col']);
         });
+        
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Models\Booking;
 use Illuminate\Http\Request;
 use App\Models\Movie;
 use App\Models\Showtime;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class ShowtimeController extends Controller
@@ -19,19 +20,21 @@ class ShowtimeController extends Controller
         $m =  ($movieDetails->duration % 60);
         $duration = $h.'h'.' '.$m.'m';
         $movieDetails->release_date = date('D, d M Y');
-        $showtimes = Showtime::where('movie_id', $movieDetails->id)->get();
-        if($user){
-            $bookedSeats = Booking::where('user_id', $user->id)->get();   
-            foreach ($showtimes as $key => $showtime) {
-                foreach ($bookedSeats as $id => $bookedSeat) {
-                    if($showtime->id == $bookedSeat->showtime_id){
-                        $showtimes[$key]->booked_seats += $bookedSeat->seats_booked;
-                    }
-                }
-            }
-        }
-        
+        $now_date_time = Carbon::now('Asia/Colombo');
+        $tomorrow = $now_date_time->copy()->addDay();
 
-        return view('showtimes.index', compact('movieDetails', 'showtimes', 'duration', 'bookedSeats'));
+        
+        $showtimes = Showtime::where('movie_id', $movieDetails->id)
+            ->whereBetween('showtime', [$now_date_time->format('Y-m-d H:i:s'), $tomorrow->format('Y-m-d H:i:s')])
+            ->get();
+       
+            foreach ($showtimes as $key => $showtime) {
+            $showtimes[$key]->time = Carbon::parse($showtime->showtime)
+                                    ->format('D d H:i');
+        }
+  
+       
+
+        return view('showtimes.index', compact('movieDetails', 'showtimes', 'duration'));
     }
 }

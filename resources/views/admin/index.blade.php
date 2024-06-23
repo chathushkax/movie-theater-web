@@ -2,44 +2,70 @@
 
 @section('content')
 <div class="container">
-    <h2>Manage Bookings</h2>
-    @if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-    @endif
-    <div class="row">
-        <table class="table">
-            <thead>
+    <h1 style="color: aliceblue">Booking Management</h1>
+    <span class="btn btn-add">
+        <a href="{{ route('admin.movies.create') }}" class="btn btn-primary">Add New Movie</a>
+    </span>
+    <table class="table" style="text-align: center">
+        <thead>
+            <tr>
+                <th>Movie</th>
+                <th>Showtime</th>
+                <th>Seats</th>
+                <th>Customer</th>
+                <th colspan="4">Actions</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($bookings as $booking)
+                    @php
+                        $numberToLetter = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+                        $colLetter = $numberToLetter[$booking->col - 1] ?? $booking->col; 
+                    @endphp
                 <tr>
-                    <th>User</th>
-                    <th>Showtime</th>
-                    <th>Seats</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($bookings as $booking)
-                <tr>
-                    <td>{{ $booking->user->name }}</td>
-                    <td>{{ $booking->showtime->showtime }}</td>
-                    <td>{{ $booking->seats_booked }}</td>
-                    <td>{{ $booking->status ?? 'Pending' }}</td>
                     <td>
-                        <form action="{{ route('admin.confirm', $booking->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            <button type="submit" class="btn btn-success">Confirm</button>
-                        </form>
-                        <form action="{{ route('admin.cancel', $booking->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            <button type="submit" class="btn btn-danger">Cancel</button>
-                        </form>
+                        <a href="/booking-process/{{$booking->showtime->id}}">{{ $booking->showtime->movie->title }}</a></td>
+                    <td>{{ $booking->showtime->showtime }}</td>
+                    <td>{{  $booking->row . $colLetter }}</td>
+                    <td>{{ $booking->user->name }}</td>
+                    <td>
+                        <td>
+                            @if ($booking->status == 'pending')
+                                <form action="{{ route('admin.bookings.confirm', $booking) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-success">Confirm</button>
+                                </form>
+                            @endif
+                        </td>
+                        <td>
+                            @if($booking->status != 'pending')
+                                <form action="{{ route('admin.bookings.modify', $booking) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <select name="status">
+                                        <option value="confirmed">Confirmed</option>
+                                        <option value="cancelled">Cancelled</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-warning">Modify</button>
+                                </form>
+                            @endif
+                        </td>                        
+                        <td>
+                            @if ($booking->status == 'pending')
+                                <form action="{{ route('admin.bookings.cancel', $booking) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger">Cancel</button>
+                                </form>
+                            @endif
+                        </td>
+                    </td>
+                    <td>
+                        {{ $booking->status }}
                     </td>
                 </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+            @endforeach
+        </tbody>
+    </table>
 </div>
 @endsection

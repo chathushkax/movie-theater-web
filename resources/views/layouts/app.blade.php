@@ -80,6 +80,7 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('profile') }}">Profile</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -118,7 +119,7 @@
             </div>
             <div class="chat-body">
                 <p>How can we help you?</p>
-                <div id="messages" class="messages">
+                <div id="messages" class="messages" style="color: aliceblue">
                     <!-- Messages will be appended here -->
                 </div>
                 <form id="chat-form">
@@ -160,60 +161,73 @@
 </script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-    const chatIcon = document.getElementById('chat-icon');
-    const chatBox = document.getElementById('chat-box');
-    const closeChat = document.getElementById('close-chat');
-    const chatForm = document.getElementById('chat-form');
-    const chatInput = document.getElementById('chat-input');
-    const messagesDiv = document.getElementById('messages');
+        const chatIcon = document.getElementById('chat-icon');
+        const chatBox = document.getElementById('chat-box');
+        const closeChat = document.getElementById('close-chat');
+        const chatForm = document.getElementById('chat-form');
+        const chatInput = document.getElementById('chat-input');
+        const messagesDiv = document.getElementById('messages');
 
-    chatIcon.addEventListener('click', function () {
-        chatBox.classList.toggle('hidden');
-        loadMessages();
-    });
-
-    closeChat.addEventListener('click', function () {
-        chatBox.classList.add('hidden');
-    });
-
-    chatForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        sendMessage(chatInput.value);
-        chatInput.value = '';
-    });
-
-    function loadMessages() {
-        fetch('/chat/messages')
-            .then(response => response.json())
-            .then(data => {
-                messagesDiv.innerHTML = '';
-                data.forEach(message => {
-                    const messageElement = document.createElement('div');
-                    messageElement.classList.add('message');
-                    messageElement.innerHTML = `<strong>${message.user.name}:</strong> ${message.message}`;
-                    messagesDiv.appendChild(messageElement);
-                });
-            });
-    }
-
-    function sendMessage(message) {
-        fetch('/chat/messages', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({ message: message })
-        })
-        .then(response => response.json())
-        .then(data => {
-            const messageElement = document.createElement('div');
-            messageElement.classList.add('message');
-            messageElement.innerHTML = `<strong>${data.user.name}:</strong> ${data.message}`;
-            messagesDiv.appendChild(messageElement);
+        chatIcon.addEventListener('click', function () {
+            chatBox.classList.toggle('hidden');
+            loadMessages();
         });
-    }
-});
+
+        closeChat.addEventListener('click', function () {
+            chatBox.classList.add('hidden');
+        });
+
+        chatForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            sendMessage(chatInput.value);
+            chatInput.value = '';
+        });
+
+        function loadMessages() {
+            fetch('/chat/messages')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    messagesDiv.innerHTML = '';
+                    data.forEach(message => {
+                        const messageElement = document.createElement('div');
+                        messageElement.classList.add('message');
+                        messageElement.innerHTML = `<strong>${message.user.name}:</strong> ${message.message}`;
+                        messagesDiv.appendChild(messageElement);
+                    });
+                })
+                .catch(error => console.error('There has been a problem with your fetch operation:', error));
+        }
+
+        function sendMessage(message) {
+            fetch('/chat/messages', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({ message: message })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message');
+                messageElement.innerHTML = `<strong>${data.user.name}:</strong> ${data.message}`;
+                messagesDiv.appendChild(messageElement);
+            })
+            .catch(error => console.error('There has been a problem with your fetch operation:', error));
+        }
+    });
+
 
 </script>
     
