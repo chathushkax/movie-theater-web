@@ -28,7 +28,14 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/cancel/{id}', [AdminController::class, 'cancel'])->name('admin.bookings.cancel');
     Route::put('bookings/{booking}', [AdminController::class, 'modify'])->name('admin.bookings.modify');
     Route::post('movies/store', [AdminController::class, 'storeMovie'])->name('admin.movies.store');
+    Route::post('movies/edit-store', [AdminController::class, 'editMovieStore'])->name('admin.movies.edit');
     Route::get('/add/movies', [AdminController::class, 'addMovie'])->name('admin.movies.create');
+    Route::get('/search-movies', [AdminController::class, 'searchMovies'])->name('admin.movies.search');
+    Route::get('/edit/{movie}', [AdminController::class, 'editMovie'])->name('admin.movie.edit');
+    Route::post('/add-showtime', [AdminController::class, 'addShowtime'])->name('showtime.add');
+    Route::delete('/delete-showtime/{id}', [AdminController::class, 'deleteShowtime'])->name('showtime.delete');
+
+
 });
 
 Route::middleware(['auth'])->group(function () {

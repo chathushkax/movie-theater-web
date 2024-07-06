@@ -49,6 +49,7 @@ class BookingController extends Controller
             $query->where('status', '!=', 'cancelled');
         }])->findOrFail($showtime_id);
         
+        
         $bookedSeats = $showtime->bookings->map(function($booking) {
             return [
                 'row' => $booking->row,
@@ -80,7 +81,7 @@ class BookingController extends Controller
                     'showtime_id' => $seat['showtime'],
                     'row' => $seat['row'],
                     'col' => $seat['col'],
-                    'is_confirmed' => 'pending'
+                    'status' => 'pending'
                 ]);
                 $booked_seats = $booked_seats + 1;
             }
@@ -93,7 +94,6 @@ class BookingController extends Controller
             return response()->json(['success' => true], 200);
         } catch (QueryException $e) {
             DB::rollBack();
-
             if ($e->getCode() == 23000) { 
                 return response()->json(['error' => 'Seat already booked'], 409);
             }

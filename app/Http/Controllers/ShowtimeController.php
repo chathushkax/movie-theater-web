@@ -21,7 +21,7 @@ class ShowtimeController extends Controller
         $duration = $h.'h'.' '.$m.'m';
         $movieDetails->release_date = date('D, d M Y');
         $now_date_time = Carbon::now('Asia/Colombo');
-        $tomorrow = $now_date_time->copy()->addDay();
+        $tomorrow = $now_date_time->copy()->addDay()->endOfDay();
 
         
         $showtimes = Showtime::where('movie_id', $movieDetails->id)
@@ -30,7 +30,7 @@ class ShowtimeController extends Controller
        
             foreach ($showtimes as $key => $showtime) {
             $showtimes[$key]->time = Carbon::parse($showtime->showtime)
-                                    ->format('D d H:i');
+                                    ->format('D d H:i A');
         }
   
        

@@ -13,8 +13,89 @@ class AdminController extends Controller
     public function index()
     {
         $bookings = Booking::with('user', 'showtime')->get();
-        return view('admin.index', compact('bookings'));
+        $now = Carbon::now();
+        $incomingMovies = Movie::where('release_date','>',$now)->orderByDesc('release_date');
+        $nowShowingMovies = Movie::where('end_date','>=',$now)->orderByDesc('release_date   ');
+        $allMovies = Movie::all();
+
+
+        return view('admin.index', compact('bookings','allMovies' ));
     }
+
+    public function searchMovies(Request $request)
+    {
+        $searchTerm = $request->input('query');
+        $allMovies = Movie::where('title', 'LIKE', '%' . $searchTerm . '%')->get();
+
+        return response()->json($allMovies);
+    }
+
+    public function editMovie($movie){
+        $movieName = str_replace('-', ' ', $movie);
+        $movieDetails = Movie::with('showtimes')->where('title', $movieName)->first();
+        
+
+        return view ('admin.movie_edit', compact('movieDetails'));
+    }
+
+    public function addShowtime(Request $request)
+    {
+        $request->validate([
+            'movie_id' => 'required|integer',
+            'show_time_date' => 'required|date',
+            'show_time_time' => 'required|date_format:H:i'
+        ]);
+
+        $showtimeString = $request->input('show_time_date') . ' ' . $request->input('show_time_time');
+
+        $existingShowtime = Showtime::where('showtime', $showtimeString)
+                                    ->first();
+
+        if ($existingShowtime) {
+            return response()->json([
+                'success' => false,
+                'message' => 'This showtime is already allocated.'
+            ]);
+        }
+
+        
+        $showtime = new Showtime();
+        $showtime->movie_id = $request->input('movie_id');
+        $showtime->showtime = $showtimeString;
+        $showtime->save();
+
+        $showtimes = Showtime::where('movie_id', $request->input('movie_id'))->get();
+
+        return response()->json([
+            'success' => true,
+            'showtimes' => $showtimes,
+            'message' => $showtime->showtime . ' Added'
+        ]);
+    }
+
+    public function deleteShowtime($id)
+    {
+        $showtime = Showtime::find($id);
+
+        if ($showtime) {
+            $showtime->delete();
+
+            // Retrieve the updated list of showtimes
+            $showtimes = Showtime::where('movie_id', $showtime->movie_id)->get();
+
+            return response()->json([
+                'success' => true,
+                'showtimes' => $showtimes
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Showtime not found'
+        ]);
+    }
+
+
 
     public function confirm($id)
     {
@@ -53,6 +134,34 @@ class AdminController extends Controller
         }
 
         return redirect()->route('admin.index')->with('success', 'Booking modified.');
+    }
+
+    public function editMovieStore(Request $request) {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'genre' => 'nullable|string|max:255',
+            'release_date' => 'nullable|date',
+            'image_url' => 'nullable|url',
+            'duration' => 'nullable|integer|min:1',
+            'language' => 'nullable|string|max:100',
+            'actors' => 'nullable|string',
+        ]);
+
+        $movie = Movie::where('id', $request->id)->first();
+        $movie->title = $request->title;
+        $movie->description = $request->description;
+        $movie->genre = $request->genre;
+        $movie->release_date = $request->release_date;
+        $movie->image_url = $request->image_url;
+        $movie->duration = $request->duration;
+        $movie->language = $request->language;
+        $movie->actors = $request->actors;
+        $movie->save();
+
+        $route = str_replace(' ', '-', $movie->title);
+
+        return redirect('/edit/'.$route)->with('success', 'Movie edit successful');
     }
 
     public function storeMovie(Request $request)

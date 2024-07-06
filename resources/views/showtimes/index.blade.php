@@ -29,7 +29,7 @@
                 @else
                     @foreach ($showtimes as $showtime)
                         <a href="/booking-process/{{$showtime->id}}">
-                            <button class="time_select_btn" role="button"><span class="text">{{ $showtime->time }} PM</span><span>Book Now</span></button>
+                            <button class="time_select_btn" role="button"><span class="text">{{ $showtime->time }}</span><span>Book Now</span></button>
                         </a>
                     @endforeach
                 @endif

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('col');
             $table->string('status');
             $table->timestamps();
-            $table->unique(['showtime_id', 'row', 'col']);
+            // $table->unique(['showtime_id', 'row', 'col']);
         });
         
     }
